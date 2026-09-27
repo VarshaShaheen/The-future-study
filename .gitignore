@@ -1,0 +1,14 @@
+.vercel
+.DS_Store
+.idea/
+node_modules/
+*.log
+
+# Raw response exports — keep participant data out of version control
+responses/
+*.csv
+*.xlsx
+response-*.json
+
+.env*
+!.env.example

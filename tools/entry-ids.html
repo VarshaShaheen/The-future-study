@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entry ID Helper</title>
+<style>
+:root{--bg:#f2f5f2;--sf:#fff;--ink:#14211b;--mut:#6b7d74;--line:#dde6e0;--green:#1a7a4c}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1512;--sf:#141f1a;--ink:#e8efea;--mut:#8ba095;--line:#26362e;--green:#4ec38a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:34px 18px 70px}
+h1{font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
+p{color:var(--mut);margin:0 0 16px;font-size:14.5px}
+ol{color:var(--mut);font-size:14.5px;padding-left:20px}
+li{margin-bottom:7px}
+textarea,pre{width:100%;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--sf);
+  color:var(--ink);border:1.5px solid var(--line);border-radius:12px;padding:14px}
+textarea{height:110px;resize:vertical}
+pre{overflow:auto;white-space:pre;margin:14px 0 0;max-height:520px}
+button{font:600 15px inherit;font-family:inherit;background:var(--green);color:#fff;border:0;border-radius:11px;
+  padding:12px 20px;cursor:pointer;margin-top:12px}
+@media(prefers-color-scheme:dark){button{color:#08140e}}
+button.sec{background:transparent;color:var(--mut);border:1.5px solid var(--line);margin-left:8px}
+.msg{font-size:13.5px;margin-top:10px;color:var(--mut);min-height:19px}
+.msg.bad{color:#b4700f}
+</style></head><body><div class="wrap">
+<h1>Entry ID helper</h1>
+<p>Only needed if you built the Google Form by hand instead of running <code>setup.gs</code>.</p>
+<ol>
+  <li>Open your form → ⋮ menu → <strong>Get pre-filled link</strong></li>
+  <li>In each question, type <strong>the question's own title</strong> as the answer (e.g. type <code>q1_age</code> into the <code>q1_age</code> box)</li>
+  <li>Click <strong>Get link</strong> → <strong>Copy link</strong></li>
+  <li>Paste it below</li>
+</ol>
+<textarea id="in" placeholder="https://docs.google.com/forms/d/e/1FAIpQLS…/viewform?usp=pp_url&entry.123456=participant_id&…"></textarea>
+<button id="go">Generate CONFIG block</button>
+<button class="sec" id="copy">Copy</button>
+<div class="msg" id="msg"></div>
+<pre id="out"></pre>
+<script>
+const FIELDS = ["participant_id","condition","consent","q1_age","q2_made_investment","q3_has_deposit","q4_heard_green","q5_choice_round1","q6_choice_round2","switch_category","switched","q7_main_reason","q7_other_text","q8_env_importance","q9_altruism_statement","q9b_altruism_agree","q10_bequest_importance","q11_bequest_agree","q12_trust_bank","q13_transparency","final_choice","q14_confidence","q15_observed_pollution","q16_local_concern","q17_gender","q18_education","q19_employment","q20_income","q21_district","time_round1_s","time_intervention_s","time_round2_s","time_total_s","started_at","submitted_at"];
+const $=i=>document.getElementById(i);
+$("go").onclick=()=>{
+  const raw=$("in").value.trim(), msg=$("msg"); msg.className="msg"; $("out").textContent="";
+  if(!raw){msg.textContent="Paste the pre-filled link first.";return;}
+  const fid=(raw.match(/\/forms\/d\/e\/([^\/]+)\//)||[])[1];
+  const qi=raw.indexOf("?");
+  if(qi<0){msg.textContent="That link has no entry parameters — make sure you filled in the answers before copying.";msg.className="msg bad";return;}
+  const map={};
+  raw.slice(qi+1).split("&").forEach(kv=>{
+    const i=kv.indexOf("="); if(i<0)return;
+    const k=kv.slice(0,i), v=decodeURIComponent(kv.slice(i+1).replace(/\+/g," ")).trim();
+    if(k.startsWith("entry.")&&v) map[v]=k;
+  });
+  const found=FIELDS.filter(f=>map[f]).length, missing=FIELDS.filter(f=>!map[f]);
+  const pad=Math.max(...FIELDS.map(f=>f.length));
+  let out=`  FORM_ID: "${fid||"PASTE_YOUR_FORM_ID"}",\n\n  ENTRY: {\n`;
+  FIELDS.forEach((f,i)=>{ out+=`    ${f}:${" ".repeat(pad-f.length+2)}"${map[f]||""}"${i===FIELDS.length-1?"":","}\n`; });
+  out+="  },";
+  $("out").textContent=out;
+  msg.textContent=`Mapped ${found} of ${FIELDS.length} fields.` + (missing.length?`  Missing: ${missing.join(", ")}`:"  All fields found.");
+  if(missing.length) msg.className="msg bad";
+};
+$("copy").onclick=()=>{ const t=$("out").textContent; if(!t)return;
+  navigator.clipboard.writeText(t).then(()=>{$("msg").textContent="Copied.";}); };
+</script>
+</div></body></html>

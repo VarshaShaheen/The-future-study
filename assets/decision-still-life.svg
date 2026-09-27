@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" fill="none">
+<defs>
+ <linearGradient id="orb" x1="300" y1="70" x2="450" y2="290" gradientUnits="userSpaceOnUse"><stop stop-color="#e8b888"/><stop offset="1" stop-color="#b97751"/></linearGradient>
+ <linearGradient id="arch" x1="100" y1="100" x2="320" y2="380" gradientUnits="userSpaceOnUse"><stop stop-color="#a5b9ab"/><stop offset="1" stop-color="#547766"/></linearGradient>
+ <linearGradient id="stone" x1="250" y1="310" x2="460" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#f5edda"/><stop offset="1" stop-color="#d0c4a9"/></linearGradient>
+ <radialGradient id="shadow"><stop stop-color="#293e32" stop-opacity=".2"/><stop offset="1" stop-color="#293e32" stop-opacity="0"/></radialGradient>
+ <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse"><path d="M42 0H0V42" stroke="#56725d" stroke-opacity=".08"/></pattern>
+</defs>
+<path fill="url(#grid)" d="M20 0h560v460H20z"/>
+<circle cx="308" cy="217" r="178" stroke="#8f9b80" stroke-opacity=".3" stroke-dasharray="3 8"/>
+<ellipse cx="304" cy="390" rx="249" ry="39" fill="url(#shadow)"/>
+<path d="M124 351V201a102 102 0 0 1 204 0v150h-65V201a37 37 0 0 0-74 0v150z" fill="url(#arch)"/>
+<path d="m124 351 23 16h65l-23-16zm204 0 23 16h-65l-23-16z" fill="#3f6251"/>
+<path d="M328 351V201a102 102 0 0 0-43-83c42 19 66 50 66 99v150z" fill="#4d715e"/>
+<circle cx="373" cy="173" r="76" fill="url(#orb)"/>
+<ellipse cx="352" cy="340" rx="103" ry="30" fill="#a99d83"/>
+<path d="M249 322h206v35c0 17-46 31-103 31s-103-14-103-31z" fill="url(#stone)"/>
+<ellipse cx="352" cy="322" rx="103" ry="30" fill="#efe5ce"/>
+<ellipse cx="352" cy="322" rx="72" ry="19" stroke="#baad8f"/>
+<path d="M249 343c0 17 46 31 103 31s103-14 103-31" stroke="#b7aa8e" stroke-opacity=".5"/>
+<path d="m349 307 12 8-16 8 13 8m-22-12 28 0" stroke="#8d8167" stroke-width="3" stroke-linecap="round"/>
+<rect x="80" y="285" width="62" height="62" rx="14" transform="rotate(-12 80 285)" fill="#d6bd8c"/>
+<path d="m472 253 0 22m-11-11h22M91 183v14m-7-7h14" stroke="#7c927b" stroke-width="2" stroke-linecap="round"/>
+<circle cx="424" cy="79" r="5" fill="#b78966"/><circle cx="192" cy="397" r="4" fill="#79957d"/>
+</svg>

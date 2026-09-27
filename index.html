@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Whose Future Are You Saving For?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THEME
+   ============================================================ */
+:root{
+  --bg:#f2f5f2;
+  --surface:#ffffff;
+  --surface-2:#f7faf8;
+  --ink:#14211b;
+  --ink-2:#3d4f46;
+  --muted:#6b7d74;
+  --line:#dde6e0;
+  --line-2:#c9d6ce;
+  --green:#1a7a4c;
+  --green-ink:#0f5334;
+  --green-soft:#e6f3ec;
+  --blue:#2b6cb0;
+  --blue-soft:#e8f1fa;
+  --amber:#b4700f;
+  --radius:16px;
+  --radius-sm:11px;
+  --shadow:0 1px 2px rgba(20,33,27,.05), 0 8px 24px -12px rgba(20,33,27,.18);
+  --maxw:640px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1512;
+    --surface:#141f1a;
+    --surface-2:#18261f;
+    --ink:#e8efea;
+    --ink-2:#bccbc3;
+    --muted:#8ba095;
+    --line:#26362e;
+    --line-2:#33473c;
+    --green:#4ec38a;
+    --green-ink:#7fd9ab;
+    --green-soft:#16302322;
+    --blue:#6aa9e8;
+    --blue-soft:#15263622;
+    --amber:#e0a44a;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1512; --surface:#141f1a; --surface-2:#18261f; --ink:#e8efea; --ink-2:#bccbc3;
+  --muted:#8ba095; --line:#26362e; --line-2:#33473c; --green:#4ec38a; --green-ink:#7fd9ab;
+  --green-soft:#16302322; --blue:#6aa9e8; --blue-soft:#15263622; --amber:#e0a44a;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  min-height:100dvh;
+}
+
+/* ---------- Progress ---------- */
+#progressWrap{
+  position:fixed; top:0; left:0; right:0; height:3px;
+  background:var(--line); z-index:50;
+}
+#progressBar{height:100%; width:0%; background:var(--green); transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* ---------- Layout ---------- */
+.stage{
+  max-width:var(--maxw); margin:0 auto;
+  padding:52px 16px calc(120px + env(safe-area-inset-bottom,0px));
+}
+.screen{display:none; animation:enter .38s cubic-bezier(.2,.7,.3,1)}
+.screen.active{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){
+  .screen{animation:none}
+  #progressBar{transition:none}
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important}
+}
+
+.card{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:22px 20px; box-shadow:var(--shadow);
+  margin-bottom:14px;
+}
+
+/* ---------- Type ---------- */
+h1{font-family:'Instrument Serif',Georgia,serif; font-weight:400; font-size:clamp(28px,7vw,38px); line-height:1.15; margin:0 0 10px; letter-spacing:-.01em}
+h2{font-family:'Instrument Serif',Georgia,serif; font-weight:400; font-size:clamp(23px,5.4vw,29px); line-height:1.2; margin:0 0 8px}
+h3{font-size:15px; font-weight:600; margin:0 0 6px; letter-spacing:-.005em}
+p{margin:0 0 13px; color:var(--ink-2)}
+p:last-child{margin-bottom:0}
+.lede{font-size:17px; color:var(--ink-2)}
+.eyebrow{
+  font-size:11px; font-weight:700; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--green); margin:0 0 10px;
+}
+.eyebrow.neutral{color:var(--muted)}
+.small{font-size:13.5px; color:var(--muted)}
+.serif-note{font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-size:19px; color:var(--ink-2)}
+
+/* ---------- Questions ---------- */
+.q{margin-bottom:26px}
+.q:last-child{margin-bottom:4px}
+.q-label{font-size:16.5px; font-weight:600; line-height:1.4; margin:0 0 3px; display:block; color:var(--ink)}
+.q-num{color:var(--green); font-weight:700; font-size:13px; letter-spacing:.04em; display:block; margin-bottom:5px}
+.q-help{font-size:13.5px; color:var(--muted); margin:0 0 12px}
+.q-label + .opts, .q-label + .scale{margin-top:12px}
+
+.opts{display:flex; flex-direction:column; gap:8px}
+.opts.grid2{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.opt{
+  display:flex; align-items:center; gap:11px;
+  padding:13px 14px; border:1.5px solid var(--line); border-radius:var(--radius-sm);
+  background:var(--surface); cursor:pointer;
+  transition:border-color .16s, background .16s, transform .1s;
+  font-size:15.5px; line-height:1.35; color:var(--ink);
+}
+.opt:hover{border-color:var(--line-2); background:var(--surface-2)}
+.opt:active{transform:scale(.99)}
+.opt input{position:absolute; opacity:0; pointer-events:none}
+.dot{
+  flex:0 0 19px; height:19px; border-radius:50%; border:1.8px solid var(--line-2);
+  display:grid; place-items:center; transition:border-color .16s;
+}
+.dot::after{content:''; width:9px; height:9px; border-radius:50%; background:var(--green); transform:scale(0); transition:transform .18s cubic-bezier(.3,1.4,.5,1)}
+.opt.checked{border-color:var(--green); background:var(--green-soft)}
+.opt.checked .dot{border-color:var(--green)}
+.opt.checked .dot::after{transform:scale(1)}
+.opt.checked .opt-text{font-weight:500}
+.opt:focus-within{outline:2px solid var(--green); outline-offset:2px}
+
+/* ---------- Likert scale ---------- */
+.scale{display:flex; flex-direction:column; gap:7px}
+.scale-row{
+  display:flex; align-items:center; gap:11px;
+  padding:11px 13px; border:1.5px solid var(--line); border-radius:var(--radius-sm);
+  cursor:pointer; background:var(--surface);
+  transition:border-color .16s, background .16s; font-size:15px;
+}
+.scale-row:hover{border-color:var(--line-2); background:var(--surface-2)}
+.scale-row input{position:absolute; opacity:0; pointer-events:none}
+.scale-row.checked{border-color:var(--green); background:var(--green-soft)}
+.scale-row.checked .dot{border-color:var(--green)}
+.scale-row.checked .dot::after{transform:scale(1)}
+.scale-row:focus-within{outline:2px solid var(--green); outline-offset:2px}
+.scale-num{
+  flex:0 0 26px; height:26px; border-radius:7px; background:var(--surface-2);
+  border:1px solid var(--line); display:grid; place-items:center;
+  font-size:13px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums;
+}
+.scale-row.checked .scale-num{background:var(--green); border-color:var(--green); color:#fff}
+:root[data-theme="dark"] .scale-row.checked .scale-num,
+:root:not([data-theme="light"]) .scale-row.checked .scale-num{color:#0d1512}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]) .scale-row.checked .scale-num{color:#fff}
+}
+
+/* ---------- Select ---------- */
+select{
+  width:100%; padding:13px 14px; font-size:15.5px; font-family:inherit; color:var(--ink);
+  background:var(--surface); border:1.5px solid var(--line); border-radius:var(--radius-sm);
+  appearance:none;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236b7d74'%3E%3Cpath d='M4.5 6.5 8 10l3.5-3.5'stroke='%236b7d74' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 13px center; background-size:17px;
+}
+select:focus{outline:2px solid var(--green); outline-offset:1px; border-color:var(--green)}
+
+/* ---------- Investment option cards ---------- */
+.invest{display:flex; flex-direction:column; gap:11px; margin:16px 0 4px}
+.invest-card{
+  position:relative; border:1.5px solid var(--line); border-radius:var(--radius);
+  padding:17px 17px 17px 18px; cursor:pointer; background:var(--surface);
+  transition:border-color .16s, background .16s, transform .1s;
+  overflow:hidden;
+}
+.invest-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:var(--line-2); transition:background .16s;
+}
+.invest-card.a::before{background:var(--blue)}
+.invest-card.b::before{background:var(--green)}
+.invest-card:hover{border-color:var(--line-2)}
+.invest-card:active{transform:scale(.995)}
+.invest-card input{position:absolute; opacity:0; pointer-events:none}
+.invest-card.checked.a{border-color:var(--blue); background:var(--blue-soft)}
+.invest-card.checked.b{border-color:var(--green); background:var(--green-soft)}
+.invest-card:focus-within{outline:2px solid var(--green); outline-offset:2px}
+.invest-head{display:flex; align-items:flex-start; gap:10px; margin-bottom:9px}
+.invest-headtext{flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-width:0}
+.invest-card .dot{margin-top:3px}
+.invest-tag{
+  font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  padding:3px 8px; border-radius:20px; background:var(--surface-2); border:1px solid var(--line); color:var(--muted);
+}
+.invest-card.a .invest-tag{color:var(--blue); border-color:color-mix(in srgb, var(--blue) 30%, transparent)}
+.invest-card.b .invest-tag{color:var(--green); border-color:color-mix(in srgb, var(--green) 30%, transparent)}
+.invest-title{font-size:17.5px; font-weight:600; letter-spacing:-.01em; line-height:1.25}
+.invest-card .dot{flex:0 0 20px; height:20px}
+.invest-card.checked.a .dot{border-color:var(--blue)}
+.invest-card.checked.a .dot::after{background:var(--blue)}
+.invest-body{font-size:14.5px; color:var(--ink-2); line-height:1.5; margin:0}
+
+/* ---------- Money hero ---------- */
+.money{
+  text-align:center; padding:26px 18px;
+  background:linear-gradient(160deg, var(--green-soft), var(--surface-2));
+  border:1px solid var(--line); border-radius:var(--radius); margin-bottom:14px;
+}
+.money-amt{
+  font-family:'Instrument Serif',Georgia,serif; font-size:clamp(40px,11vw,58px);
+  line-height:1; color:var(--green-ink); margin:4px 0 6px; letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
+}
+.money-sub{font-size:13.5px; color:var(--muted); margin:0}
+
+/* ---------- Terms strip ---------- */
+.terms{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:var(--radius-sm);
+  overflow:hidden; margin:14px 0;
+}
+.term{background:var(--surface); padding:12px 10px; text-align:center}
+.term-k{font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-bottom:3px}
+.term-v{font-size:15px; font-weight:600; color:var(--ink)}
+
+/* ---------- Visualisation (treatment) ---------- */
+.viz{margin:16px 0 4px}
+.viz-pair{display:grid; grid-template-columns:1fr; gap:10px}
+@media (min-width:520px){ .viz-pair{grid-template-columns:1fr 1fr} }
+.viz-panel{
+  border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--surface-2);
+}
+.viz-media{display:block; width:100%; aspect-ratio:4/3; object-fit:cover; background:var(--surface-2)}
+.viz-cap{padding:9px 12px; display:flex; align-items:center; gap:7px; border-top:1px solid var(--line)}
+.viz-badge{
+  font-size:10px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  padding:2px 7px; border-radius:20px;
+}
+.viz-badge.before{background:color-mix(in srgb, var(--amber) 15%, transparent); color:var(--amber)}
+.viz-badge.after{background:var(--green-soft); color:var(--green)}
+.viz-cap-t{font-size:13px; color:var(--muted)}
+.viz-arrow{
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  margin:12px 0; font-size:13px; color:var(--muted); font-weight:500;
+}
+.viz-arrow span{padding:0 4px}
+.viz-arrow::before, .viz-arrow::after{content:''; height:1px; flex:1; background:var(--line)}
+.disclaimer{
+  margin-top:14px; padding:12px 14px; border-radius:var(--radius-sm);
+  background:var(--surface-2); border:1px solid var(--line);
+  font-size:12.5px; color:var(--muted); line-height:1.5;
+}
+
+/* ---------- Nav ---------- */
+#nav{
+  position:fixed; left:0; right:0; bottom:0; z-index:40;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+}
+#nav-inner{max-width:var(--maxw); margin:0 auto; display:flex; align-items:center; gap:10px}
+.btn{
+  font-family:inherit; font-size:15.5px; font-weight:600; border-radius:11px;
+  padding:13px 22px; border:1.5px solid transparent; cursor:pointer;
+  transition:opacity .15s, transform .1s, background .15s;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--green); color:#fff; flex:1}
+:root[data-theme="dark"] .btn-primary,
+:root:not([data-theme="light"]) .btn-primary{color:#08140e}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]) .btn-primary{color:#fff} }
+.btn-primary:disabled{opacity:.35; cursor:not-allowed}
+.btn-ghost{background:transparent; color:var(--muted); border-color:var(--line); padding:13px 16px}
+.step-count{font-size:12.5px; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+
+/* ---------- Misc ---------- */
+.consent{
+  display:flex; gap:12px; align-items:flex-start; padding:15px;
+  border:1.5px solid var(--line); border-radius:var(--radius-sm); cursor:pointer; background:var(--surface);
+  transition:border-color .16s, background .16s;
+}
+.consent.checked{border-color:var(--green); background:var(--green-soft)}
+.consent input{position:absolute; opacity:0; pointer-events:none}
+.consent:focus-within{outline:2px solid var(--green); outline-offset:2px}
+.box{
+  flex:0 0 20px; height:20px; border-radius:6px; border:1.8px solid var(--line-2);
+  display:grid; place-items:center; margin-top:1px; transition:all .16s;
+}
+.box svg{width:12px; height:12px; opacity:0; transform:scale(.6); transition:all .18s}
+.consent.checked .box{background:var(--green); border-color:var(--green)}
+.consent.checked .box svg{opacity:1; transform:scale(1)}
+.consent-text{font-size:15.5px; font-weight:500; line-height:1.4}
+
+.tick{width:56px;height:56px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;margin:0 auto 18px}
+.tick svg{width:28px;height:28px;stroke:var(--green);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.center{text-align:center}
+.status{font-size:13px; color:var(--muted); margin-top:14px; min-height:20px}
+.status.err{color:var(--amber)}
+.hide{display:none !important}
+hr.sep{border:0; border-top:1px solid var(--line); margin:22px 0}
+</style>
+<link rel="stylesheet" href="styles/experience.css">
+</head>
+<body>
+<div id="progressWrap"><div id="progressBar"></div></div>
+<header class="site-header">
+  <div class="wordmark"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M5 18C1 8 12 3 21 3c0 11-4 19-14 16M5 21 16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span> The Future Study<span style="color:var(--muted);font-weight:400"> / </span></div>
+  <span class="header-note">A decision-making experiment</span>
+</header>
+<div class="experience-layout" id="experienceLayout">
+  <aside class="story-panel" aria-label="About the study">
+    <p class="story-kicker">A little thought. A different perspective.</p>
+    <h1>Whose future<br>are you <em>saving<br>for?</em></h1>
+    <p class="story-description">A few choices. Five minutes.<br>An exploration of what matters to you.</p>
+    <figure class="artwork forest-artwork">
+      <svg class="forest-scene" viewBox="0 0 560 390" role="img" aria-labelledby="forestTitle">
+        <title id="forestTitle">An animated woodland with layered hills, growing trees, drifting clouds, and a winding stream</title>
+        <defs>
+          <linearGradient id="forestSky" x2="0" y2="1"><stop stop-color="#3e7162"/><stop offset="1" stop-color="#a4ba83"/></linearGradient>
+          <linearGradient id="stream" x2="1" y2="1"><stop stop-color="#b5d8ad"/><stop offset="1" stop-color="#65a59b"/></linearGradient>
+          <linearGradient id="ground" x2="0" y2="1"><stop stop-color="#507d46"/><stop offset="1" stop-color="#234c37"/></linearGradient>
+          <clipPath id="sceneClip"><rect width="560" height="390" rx="28"/></clipPath>
+          <g id="pine"><path d="M-5 0h10v-115H-5" fill="#ad9767"/><path d="m0-185-43 70h23l-40 58h32L-74-2H74L28-57h32l-40-58h23z" fill="currentColor"/><path d="M0-164v150" stroke="#e1edb2" stroke-opacity=".13" stroke-width="3"/></g>
+          <g id="roundTree"><path d="M-5 0h10v-94H-5" fill="#b99865"/><path d="m0-43-24-25m24 10 22-32" stroke="#b99865" stroke-width="5"/><path d="M-49-81c-31-40 0-67 17-65-5-43 59-56 71-15 39-6 60 42 31 62 15 45-33 56-52 36-24 17-55 9-67-18" fill="currentColor"/><path d="M0-141v58m0-26 20-16m-20 3-18-14" stroke="#e4edbb" stroke-width="2" stroke-opacity=".22"/></g>
+        </defs>
+        <g clip-path="url(#sceneClip)">
+          <path fill="url(#forestSky)" d="M0 0h560v390H0z"/>
+          <circle class="sun-glow" cx="410" cy="82" r="62" fill="#ebdc94" opacity=".09"/><circle cx="410" cy="82" r="43" fill="#ebdc94" opacity=".15"/><circle cx="410" cy="82" r="29" fill="#efe2a2"/>
+          <g class="forest-cloud" fill="#e1e8cb" opacity=".32"><path d="M61 78c-2-14 11-23 23-19 4-22 37-20 41 1 18-8 32 4 30 18z"/><path d="M291 43c0-10 10-14 17-10 7-17 28-15 31 2 12-5 22 3 20 8z"/></g>
+          <path d="M0 198Q72 106 170 172T348 141T560 170V390H0" fill="#577f61"/>
+          <path d="M0 230Q97 146 192 218T387 179T560 220V390H0" fill="#38664c"/>
+          <g fill="#294f3d" opacity=".65"><path d="m68 157-22 63h44zm84 13-23 66h46zm283-19-22 65h44zm43 15-23 67h46z"/></g>
+          <path d="M0 270Q130 195 280 251T560 222V390H0" fill="url(#ground)"/>
+          <path d="M338 219c-95 45 101 40 33 76-46 24-149 31-110 95H410c-117-48 79-69 27-106-31-22-108-25-99-65" fill="url(#stream)"/>
+          <path class="water-ripple" d="M337 255h28m4 49h39m-87 37h39m-35 24h54" stroke="#d3e8b9" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+          <g transform="translate(75 287) scale(.79)"><g class="pop-tree" style="--delay:.1s;color:#7ba763"><use href="#pine"/></g></g>
+          <g transform="translate(155 294) scale(.95)"><g class="pop-tree" style="--delay:.28s;color:#94b56b"><use href="#roundTree"/></g></g>
+          <g transform="translate(238 284) scale(.65)"><g class="pop-tree" style="--delay:.5s;color:#639751"><use href="#pine"/></g></g>
+          <g transform="translate(461 291) scale(.97)"><g class="pop-tree" style="--delay:.36s;color:#87a95b"><use href="#pine"/></g></g>
+          <g transform="translate(516 311) scale(.62)"><g class="pop-tree" style="--delay:.68s;color:#b2c77e"><use href="#roundTree"/></g></g>
+          <path d="M0 332q97-37 214 8l-10 50H0m420-44q88-39 140-8v52H446" fill="#1e4934"/>
+          <g transform="translate(49 380) scale(.72)"><g class="pop-tree" style="--delay:.8s;color:#456f43"><use href="#roundTree"/></g></g>
+          <g transform="translate(493 389) scale(.71)"><g class="pop-tree" style="--delay:.92s;color:#305d3d"><use href="#pine"/></g></g>
+          <g stroke="#a9c67e" stroke-width="2" fill="none" stroke-linecap="round"><path d="M128 342v-15m0 9-6-5m6 0 6-6m58 36v-17m0 8-6-6m6 0 6-5M429 332v-13m0 6 6-4"/></g>
+          <g fill="#ead394"><circle cx="106" cy="315" r="3"/><circle cx="199" cy="338" r="2.5"/><circle cx="443" cy="316" r="3"/><circle cx="172" cy="355" r="2"/></g>
+          <g class="forest-birds" stroke="#234c3b" stroke-width="2" fill="none" stroke-linecap="round"><path d="M238 83q7-7 14 0 7-7 14 0m-40 18q5-5 10 0 5-5 10 0"/></g>
+          <g class="fireflies" fill="#eff1a9"><circle cx="116" cy="242" r="2"/><circle cx="303" cy="202" r="2"/><circle cx="402" cy="323" r="2.5"/><circle cx="221" cy="308" r="1.5"/></g>
+        </g>
+      </svg>
+      <div class="forest-caption"><span><i></i> A moment in nature</span><button class="replay-nature" type="button" aria-label="Replay the growing trees animation">↻ <span>Watch it grow</span></button></div>
+    </figure>
+    <div class="story-footer">
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>About 5 minutes</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Anonymous responses</span>
+    </div>
+  </aside>
+  <div class="form-panel">
+    <div class="journey" id="journey" role="progressbar" aria-label="Study progress" aria-valuemin="0" aria-valuenow="0"></div>
+    <main class="stage" id="stage"></main>
+  </div>
+</div>
+<nav id="nav" class="hide">
+  <div id="nav-inner">
+    <span class="nav-hint" id="navHint" aria-live="polite">Your perspective. Your choice.</span>
+    <button class="btn btn-ghost hide" id="backBtn" type="button">Back</button>
+    <button class="btn btn-primary" id="nextBtn" type="button" disabled>Continue</button>
+    <span class="step-count" id="stepCount"></span>
+  </div>
+</nav>
+
+<script>
+/* ==================================================================
+   ██  CONFIG — EDIT THIS BLOCK ONLY  ██
+   Everything you need to change lives between here and END CONFIG.
+   ================================================================== */
+
+const CONFIG = {
+
+  // Same-origin Vercel endpoint. Google credentials live in server environment variables.
+  RESPONSE_URL: "/api/responses",
+
+  /* ---- 3. TREATMENT PHOTOGRAPHS ---------------------------------
+     Served locally; only inserted for treatment participants.
+     Source details and credits are in assets/PHOTO-CREDITS.md.     */
+  ASSETS: {
+    solar: "assets/solar-energy.jpg",
+    water: "assets/forest-river.jpg",
+    solarAlt: "Rows of real solar panels beneath a blue sky.",
+    waterAlt: "A flowing river surrounded by a dense green forest."
+  },
+
+  /* ---- 4. DISTRICTS --------------------------------------------
+     Replace with your sampling frame's districts.                 */
+  DISTRICTS: [
+    "Thiruvananthapuram","Kollam","Pathanamthitta","Alappuzha","Kottayam",
+    "Idukki","Ernakulam","Thrissur","Palakkad","Malappuram",
+    "Kozhikode","Wayanad","Kannur","Kasaragod"
+  ],
+
+  /* ---- 5. BEHAVIOUR --------------------------------------------- */
+  TREATMENT_SHARE: 0.5,     // 0.5 = 50/50 random assignment
+  BLOCK_REPEAT:    true,    // one response per browser (?reset=1 clears)
+  FORCE_CONDITION: null     // "control" or "treatment" to preview a screen
+};
+
+/* ==================================================================
+   ██  END CONFIG — you shouldn't need to edit below this line  ██
+   ================================================================== */
+
+const AMOUNT = "₹10,00,000";
+const LAKH   = "₹10 lakh";
+
+const LIK_IMPORTANCE = ["Not at all important","Slightly important","Moderately important","Very important","Extremely important"];
+const LIK_AGREE      = ["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"];
+const LIK_TRUST      = ["No trust","Low trust","Moderate trust","High trust","Very high trust"];
+const LIK_CONFIDENCE = ["Not confident at all","Slightly confident","Moderately confident","Very confident","Extremely confident"];
+const LIK_CONCERN    = ["Not at all concerned","Slightly concerned","Moderately concerned","Very concerned","Extremely concerned"];
+
+const CHOICE_OPTS = [
+  { v:"Conventional Deposit", cls:"a", tag:"Option A", title:"Conventional Deposit",
+    body:"A conventional bank deposit provides a financial return according to the stated terms of the deposit." },
+  { v:"Green Deposit", cls:"b", tag:"Option B", title:"Green Deposit",
+    body:"A Green Deposit is a deposit instrument through which funds are earmarked for financing eligible green activities or projects under the applicable regulatory framework." }
+];
+
+/* ------------------------------------------------------------------
+   SCREEN DEFINITIONS
+   ------------------------------------------------------------------ */
+const SCREEN_GROUPS = [
+
+{ id:"consent", chrome:false, html:`
+  <div class="welcome-card">
+    <div class="welcome-topline"><p class="eyebrow">Welcome to the study</p><span class="edition"></span></div>
+    <h2>Let’s start with a possibility.</h2>
+    <p class="lede">Imagine that you have money available for investment. Where would you choose to place it?</p>
+    <div class="intro-amount"><div><small>Your hypothetical investment</small><strong>${AMOUNT}</strong></div><span class="amount-symbol" aria-hidden="true">₹</span></div>
+    <p>You will make a series of decisions about where you would like to place this money. There are no right or wrong answers. Please make each decision based on what you would personally choose in the situation presented.</p>
+    <div class="welcome-details"><div class="detail"><strong>01 &nbsp; Make your choices</strong>Consider the options at your own pace.</div><div class="detail"><strong>02 &nbsp; Share your perspective</strong>Tell us what matters in your decisions.</div></div>
+    <p class="small">Your choices will be used only for research purposes. The study takes about 5 minutes and your responses are anonymous.</p>
+  </div>`,
+  questions:[ { id:"consent", type:"consent", label:"I agree to participate in this study." } ]
+},
+
+{ id:"profile", eyebrow:"Before we begin", title:"A little about you",
+  intro:`<p class="small">A few questions about you and your experience.</p>`,
+  questions:[
+    { id:"q1_age", num:"Q1", type:"radio", label:"Age", grid:true,
+      options:["18–25","26–35","36–45","46–55","56–65","Above 65"] },
+    { id:"q2_made_investment", num:"Q2", type:"radio", label:"Have you ever personally made a savings or investment decision?",
+      options:["Yes","No"], grid:true },
+    { id:"q3_has_deposit", num:"Q3", type:"radio", label:"Do you currently have a bank deposit?",
+      options:["Yes","No"], grid:true },
+    { id:"q4_heard_green", num:"Q4", type:"radio", label:"Have you heard of a Green Deposit before this game?",
+      options:["Yes","No","Not sure"] },
+    { id:"q18_education", type:"radio", label:"Highest level of education",
+      options:["Higher secondary or below","Undergraduate","Postgraduate","MPhil / PhD","Other"] },
+    { id:"q20_income", type:"radio", label:"Monthly household income",
+      options:["Below ₹10,000","₹10,000 – ₹40,000","₹40,001 – ₹70,000",
+               "₹70,001 – ₹1,00,000","Above ₹1,00,000","Prefer not to say"] },
+    { id:"q17_gender", type:"radio", label:"Gender", grid:true,
+      options:["Male","Female","Other","Prefer not to say"] },
+    { id:"q19_employment", type:"radio", label:"Employment status", grid:true,
+      options:["Student","Employed","Self-employed","Homemaker","Retired","Unemployed","Other"] },
+    { id:"q21_district", type:"select", label:"District", placeholder:"Select your district" }
+  ]
+},
+
+{ id:"round1", eyebrow:"Round 1", title:"Your ₹10 lakh", timed:"time_round1_s",
+  intro:`
+  <div class="money">
+    <p class="small" style="margin:0">You have received a hypothetical</p>
+    <div class="money-amt">${AMOUNT}</div>
+    <p class="money-sub">You cannot spend this money. Your task is to decide where to invest it.</p>
+  </div>
+  <div class="card">
+    <h3>The terms</h3>
+    <p class="small">Both options offer exactly the same terms. Your decision should be based only on the information provided.</p>
+    <div class="terms">
+      <div class="term"><div class="term-k">Interest</div><div class="term-v">7%</div></div>
+      <div class="term"><div class="term-k">Tenure</div><div class="term-v">Same</div></div>
+      <div class="term"><div class="term-k">Withdrawal</div><div class="term-v">Same</div></div>
+    </div>
+  </div>`,
+  questions:[
+    { id:"q5_choice_round1", num:"Q5", type:"invest", label:`Where would you invest your ${LAKH}?` }
+  ]
+},
+
+{ id:"info", chrome:false, timed:"time_intervention_s", dynamic:true },
+
+{ id:"round2", eyebrow:"Round 2", title:"Your decision now", timed:"time_round2_s",
+  intro:`<p class="small">You may keep your earlier choice or change it — both are equally valid.</p>`,
+  questions:[
+    { id:"q6_choice_round2", num:"Q6", type:"invest",
+      label:`After receiving this information, where would you invest your ${LAKH} now?` }
+  ]
+},
+
+{ id:"reasons", eyebrow:"Round 3", title:"What made you choose?",
+  questions:[
+    { id:"q7_main_reason", num:"Q7", type:"radio", label:"What was the main reason for your choice?",
+      options:["Financial benefit","Environmental benefit","Benefit to future generations",
+               "Benefit to society or community","Trust in the banking system",
+               "Safety and security of the deposit","A combination of financial and environmental considerations","Other"],
+      otherField:"q7_other_text", otherLabel:"Please describe briefly" },
+    { id:"q8_env_importance", num:"Q8", type:"likert", label:"How important was the environmental impact in your decision?", scale:LIK_IMPORTANCE }
+  ]
+},
+
+{ id:"altruism", eyebrow:"Round 4", title:"How you weigh things",
+  questions:[
+    { id:"q9_altruism_statement", num:"Q9", type:"radio", label:"Which statement best describes your thinking?",
+      options:["I prefer investments that benefit only me financially.",
+               "I prefer investments that provide both personal and social benefits.",
+               "I am willing to accept a personal trade-off if my investment benefits society.",
+               "I consider the environmental benefits to society when making financial decisions."] },
+    { id:"q9b_altruism_agree", num:"Q9b", type:"likert", scale:LIK_AGREE,
+      label:"I am willing to consider the benefits my investment creates for other people when making financial decisions." }
+  ]
+},
+
+{ id:"bequest", eyebrow:"Round 5", title:"Looking further ahead",
+  questions:[
+    { id:"q10_bequest_importance", num:"Q10", type:"likert", scale:LIK_IMPORTANCE,
+      label:"Imagine that your investment contributes to environmental quality that can benefit people in the future. How important is it to you that future generations inherit a healthy environment?" },
+    { id:"q11_bequest_agree", num:"Q11", type:"likert", scale:LIK_AGREE,
+      label:"I value leaving a healthier natural environment for future generations, even if I may not personally receive the full benefit." }
+  ]
+},
+
+{ id:"trust", eyebrow:"Round 6", title:"Trust and transparency",
+  questions:[
+    { id:"q12_trust_bank", num:"Q12", type:"likert", scale:LIK_TRUST,
+      label:"How much would you trust a bank to use green-deposit funds for the environmental purposes it has stated?" },
+    { id:"q13_transparency", num:"Q13", type:"likert", scale:LIK_IMPORTANCE,
+      label:"How important is transparent information about where green-deposit funds are actually invested?" }
+  ]
+},
+
+{ id:"final", eyebrow:"Round 7", title:"Final decision",
+  intro:`<p>After everything you have seen in this game, imagine that you really had <strong>${LAKH}</strong> available for investment.</p>`,
+  questions:[
+    { id:"final_choice", type:"invest", label:"Which would you choose?", compact:true },
+    { id:"q14_confidence", num:"Q14", type:"likert", scale:LIK_CONFIDENCE,
+      label:"How confident are you about your final choice?" }
+  ]
+},
+
+{ id:"envexp", eyebrow:"Almost there", title:"Your own experience",
+  questions:[
+    { id:"q15_observed_pollution", num:"Q15", type:"radio",
+      label:"Have you personally observed or experienced environmental problems such as river or water pollution?",
+      options:["Yes","No","Not sure"] },
+    { id:"q16_local_concern", num:"Q16", type:"likert", scale:LIK_CONCERN,
+      label:"How concerned are you about environmental degradation in your local area?" }
+  ]
+},
+
+
+];
+
+// Keep the initial profile together; present each post-information question separately.
+const round2GroupIndex = SCREEN_GROUPS.findIndex(screen => screen.id === "round2");
+const SCREENS = SCREEN_GROUPS.flatMap((screen, index) => {
+  if (index < round2GroupIndex || (screen.questions || []).length <= 1) return [screen];
+  return screen.questions.map((question, questionIndex) => ({
+    ...screen,
+    id: questionIndex === 0 ? screen.id : `${screen.id}_${question.id}`,
+    intro: questionIndex === 0 ? screen.intro : undefined,
+    questions: [question]
+  }));
+});
+
+</script>
+
+<script>
+/* ------------------------------------------------------------------
+   STATE
+   ------------------------------------------------------------------ */
+const LS_KEY   = "gdg_state_v1";
+const LS_QUEUE = "gdg_pending_v1";
+const LS_DONE  = "gdg_done_v1";
+
+const qs = new URLSearchParams(location.search);
+if (qs.has("reset")) { try{ localStorage.removeItem(LS_DONE); localStorage.removeItem(LS_STATE_SAFE()); }catch(e){} }
+function LS_STATE_SAFE(){ return LS_KEY; }
+
+const state = {
+  pid: null,
+  condition: null,
+  answers: {},
+  times: {},
+  startedAt: null,
+  _screenEnter: 0,
+  index: 0
+};
+
+function uid(){
+  const r = (crypto && crypto.getRandomValues)
+    ? Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b=>b.toString(16).padStart(2,"0")).join("")
+    : Math.random().toString(16).slice(2,14);
+  return "P-" + Date.now().toString(36).toUpperCase() + "-" + r.toUpperCase();
+}
+
+function assignCondition(){
+  if (CONFIG.FORCE_CONDITION) return CONFIG.FORCE_CONDITION;
+  if (qs.get("c") === "control" || qs.get("c") === "treatment") return qs.get("c");
+  let x;
+  if (crypto && crypto.getRandomValues){
+    const a = new Uint32Array(1); crypto.getRandomValues(a); x = a[0] / 4294967296;
+  } else { x = Math.random(); }
+  return x < CONFIG.TREATMENT_SHARE ? "treatment" : "control";
+}
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ------------------------------------------------------------------
+   FALLBACK ILLUSTRATIONS (used only when CONFIG.ASSETS are null)
+   ------------------------------------------------------------------ */
+function riverSVG(kind){
+  const polluted = kind === "before";
+  const sky   = polluted ? ["#9aa3a0","#b6b9ae"] : ["#bcd9ee","#e3f0f7"];
+  const hill  = polluted ? "#7d8570" : "#6ea86b";
+  const hill2 = polluted ? "#69705e" : "#4f8b52";
+  const water = polluted ? ["#7a7358","#5f5a43"] : ["#5fb3c9","#2f7f9e"];
+  const tree  = polluted ? "#6b6f5c" : "#2f7a45";
+  return `<svg class="viz-media" viewBox="0 0 400 300" role="img" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sk${kind}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient>
+      <linearGradient id="wt${kind}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${water[0]}"/><stop offset="1" stop-color="${water[1]}"/></linearGradient>
+    </defs>
+    <rect width="400" height="300" fill="url(#sk${kind})"/>
+    <path d="M0 150 Q70 112 140 138 T280 128 T400 146 L400 300 L0 300Z" fill="${hill}"/>
+    <path d="M0 176 Q100 150 190 172 T400 166 L400 300 L0 300Z" fill="${hill2}"/>
+    <path d="M108 300 C138 250 170 209 193 179 C197 173 200 169 202 166 C205 170 210 177 216 185 C241 217 270 252 294 300 Z" fill="url(#wt${kind})"/>
+    <path d="M108 300 C138 250 170 209 193 179 C197 173 200 169 202 166" fill="none" stroke="#00000018" stroke-width="2.5"/>
+    <path d="M202 166 C205 170 210 177 216 185 C241 217 270 252 294 300" fill="none" stroke="#00000018" stroke-width="2.5"/>
+    ${[[96,178],[70,190],[320,180],[348,192],[46,206],[364,210]].map(([x,y])=>
+      `<g><rect x="${x-2.5}" y="${y}" width="5" height="17" fill="#5a4a34" opacity=".85"/><ellipse cx="${x}" cy="${y-4}" rx="15" ry="17" fill="${tree}"/></g>`).join("")}
+    ${polluted ? `
+      <g opacity=".92">
+        <ellipse cx="172" cy="252" rx="17" ry="6" fill="#4a4432"/>
+        <ellipse cx="222" cy="272" rx="21" ry="7" fill="#544d39"/>
+        <ellipse cx="196" cy="224" rx="12" ry="4.5" fill="#45402f"/>
+        <rect x="150" y="266" width="15" height="9" rx="2" fill="#8d8f86" transform="rotate(-13 157 270)"/>
+        <rect x="243" y="243" width="12" height="8" rx="2" fill="#7e8177" transform="rotate(18 249 247)"/>
+        <circle cx="210" cy="206" r="4" fill="#3f3a2b"/>
+      </g>
+      <g opacity=".5" fill="#8a8c82">
+        <ellipse cx="300" cy="96" rx="34" ry="14"/><ellipse cx="270" cy="104" rx="24" ry="11"/>
+        <ellipse cx="104" cy="74" rx="28" ry="12"/>
+      </g>` : `
+      <g opacity=".55" fill="#ffffff">
+        <ellipse cx="300" cy="86" rx="32" ry="13"/><ellipse cx="272" cy="93" rx="22" ry="10"/>
+        <ellipse cx="102" cy="68" rx="26" ry="11"/>
+      </g>
+      <g stroke="#ffffff" stroke-opacity=".5" stroke-width="2.2" fill="none" stroke-linecap="round">
+        <path d="M172 250 q14 -6 28 0"/><path d="M186 276 q16 -7 32 0"/><path d="M182 222 q11 -5 22 0"/>
+      </g>
+      <g fill="#ffffff" opacity=".8">
+        <path d="M300 148 l5 -9 5 9 z" transform="rotate(-8 305 144)"/>
+      </g>`}
+  </svg>`;
+}
+
+function mediaTag(src, alt, kind){
+  if (!src) return riverSVG(kind);
+  if (/\.(mp4|webm|mov)$/i.test(src)){
+    return `<video class="viz-media" src="${esc(src)}" autoplay loop muted playsinline aria-label="${esc(alt)}"></video>`;
+  }
+  return `<img class="viz-media" src="${esc(src)}" alt="${esc(alt)}" loading="eager">`;
+}
+
+/* ------------------------------------------------------------------
+   THE INTERVENTION SCREEN
+   ------------------------------------------------------------------ */
+const SHARED_INFO_TEXT = `
+  <p class="eyebrow">Before your Round 2 decision</p>
+  <h2>What is a Green Deposit?</h2>
+  <p style="margin-top:12px">A Green Deposit is an interest-bearing deposit offered by eligible financial institutions regulated by the Reserve Bank of India (RBI).</p>
+  <p>The funds raised through Green Deposits are earmarked for financing eligible green activities and projects. These may include:</p>
+  <ul class="green-activities">
+    <li>Renewable energy</li>
+    <li>Clean transportation</li>
+    <li>Sustainable water and waste management</li>
+    <li>Green buildings</li>
+    <li>Biodiversity and forest conservation</li>
+    <li>Pollution prevention and control</li>
+  </ul>
+  <p>A Green Deposit is similar to a conventional fixed deposit in that you deposit money with a financial institution and receive interest. However, the funds raised through a Green Deposit are specifically earmarked for eligible green activities and projects.</p>
+  <p class="deposit-important"><strong>Important:</strong> A Green Deposit does not necessarily offer a higher interest rate than a conventional fixed deposit. The distinguishing feature is how the funds are earmarked for eligible green activities and projects.</p>
+  <p>In the following decision, imagine that you have <strong>₹10,00,000 available to invest for a period of 5 years</strong>.</p>
+  <p>Please consider the information above before making your next investment decision.</p>`;
+
+function interventionHTML(){
+  if (state.condition === "control"){
+    return `<div class="card">${SHARED_INFO_TEXT}</div>`;
+  }
+  return `
+  <div class="card">${SHARED_INFO_TEXT}</div>
+  <div class="treatment-gallery" aria-label="Real-world environmental photographs">
+    <figure class="project-photo">
+      <img src="${esc(CONFIG.ASSETS.solar)}" alt="${esc(CONFIG.ASSETS.solarAlt)}" width="1000" height="666" loading="eager">
+      <figcaption><span class="eyebrow">Renewable energy</span><h3>Energy from the sun</h3><p>Solar panels are one example of renewable-energy infrastructure.</p></figcaption>
+    </figure>
+    <figure class="project-photo">
+      <img src="${esc(CONFIG.ASSETS.water)}" alt="${esc(CONFIG.ASSETS.waterAlt)}" width="1000" height="667" loading="eager">
+      <figcaption><span class="eyebrow">Water and natural environments</span><h3>A living waterway</h3><p>A real river landscape illustrates the natural environments that environmental protection aims to preserve.</p></figcaption>
+    </figure>
+    <p class="disclaimer">These photographs show real places as visual examples. They do not show a before-and-after comparison, a verified green-deposit-funded project, or a guaranteed result of your investment.</p>
+    <p class="photo-credits">Photos: <a href="https://unsplash.com/photos/XGAZzyLzn18" target="_blank" rel="noopener noreferrer">American Public Power Association</a> and <a href="https://unsplash.com/photos/1XY-qR9MDAc" target="_blank" rel="noopener noreferrer">Adrien Olichon</a> / Unsplash.</p>
+  </div>`;
+}
+
+/* ------------------------------------------------------------------
+   QUESTION RENDERERS
+   ------------------------------------------------------------------ */
+function renderQuestion(q){
+  const num  = q.num ? `<span class="q-num">${esc(q.num)}</span>` : "";
+  const lab  = `${num}<span class="q-label">${q.label}</span>`;
+  let body = "";
+
+  if (q.type === "consent"){
+    const on = state.answers[q.id] === "Yes" ? " checked" : "";
+    return `<label class="consent${on}" data-consent="${q.id}">
+      <input type="checkbox" name="${q.id}"${on ? " checked" : ""}>
+      <span class="box"><svg viewBox="0 0 24 24" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <span class="consent-text">${q.label}</span>
+    </label>`;
+  }
+
+  if (q.type === "radio"){
+    body = `<div class="opts${q.grid ? " grid2" : ""}">` + q.options.map(o=>{
+      const on = state.answers[q.id] === o ? " checked" : "";
+      return `<label class="opt${on}" data-q="${q.id}" data-v="${esc(o)}">
+        <input type="radio" name="${q.id}" value="${esc(o)}"${on ? " checked" : ""}>
+        <span class="dot"></span><span class="opt-text">${esc(o)}</span></label>`;
+    }).join("") + `</div>`;
+    if (q.otherField){
+      const show = state.answers[q.id] === "Other" ? "" : " hide";
+      body += `<div class="other-wrap${show}" data-for="${q.id}" style="margin-top:9px">
+        <input type="text" data-other="${q.otherField}" placeholder="${esc(q.otherLabel||"Please specify")}"
+          value="${esc(state.answers[q.otherField]||"")}" maxlength="180"
+          style="width:100%;padding:13px 14px;font-size:15.5px;font-family:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-sm)">
+      </div>`;
+    }
+  }
+
+  if (q.type === "likert"){
+    body = `<div class="scale">` + q.scale.map((txt,i)=>{
+      const v = String(i+1), on = state.answers[q.id] === v ? " checked" : "";
+      return `<label class="scale-row${on}" data-q="${q.id}" data-v="${v}">
+        <input type="radio" name="${q.id}" value="${v}"${on ? " checked" : ""}>
+        <span class="scale-num">${v}</span><span class="dot"></span><span>${esc(txt)}</span></label>`;
+    }).join("") + `</div>`;
+  }
+
+  if (q.type === "invest"){
+    body = `<div class="invest">` + CHOICE_OPTS.map(o=>{
+      const on = state.answers[q.id] === o.v ? " checked" : "";
+      return `<label class="invest-card ${o.cls}${on}" data-q="${q.id}" data-v="${esc(o.v)}">
+        <input type="radio" name="${q.id}" value="${esc(o.v)}"${on ? " checked" : ""}>
+        <div class="invest-head">
+          <span class="invest-headtext">
+            <span class="invest-tag">${esc(o.tag)}</span>
+            <span class="invest-title">${esc(o.title)}</span>
+          </span>
+          <span class="dot"></span>
+        </div>
+        ${q.compact ? "" : `<p class="invest-body">${esc(o.body)}</p>`}
+      </label>`;
+    }).join("") + `</div>`;
+  }
+
+  if (q.type === "select"){
+    const cur = state.answers[q.id] || "";
+    body = `<select aria-label="${esc(q.label)}" data-q="${q.id}"><option value="">${esc(q.placeholder||"Select…")}</option>` +
+      CONFIG.DISTRICTS.map(d=>`<option value="${esc(d)}"${cur===d?" selected":""}>${esc(d)}</option>`).join("") +
+      `</select>`;
+  }
+
+  return `<div class="q" data-qid="${q.id}">${lab}${q.help?`<p class="q-help">${q.help}</p>`:""}${body}</div>`;
+}
+</script>
+
+<script>
+/* ------------------------------------------------------------------
+   RENDER + NAVIGATION
+   ------------------------------------------------------------------ */
+const stage = document.getElementById("stage");
+const nav   = document.getElementById("nav");
+const nextBtn = document.getElementById("nextBtn");
+const backBtn = document.getElementById("backBtn");
+const stepCount = document.getElementById("stepCount");
+const progressBar = document.getElementById("progressBar");
+
+function screenHTML(s){
+  if (s.dynamic) return interventionHTML();
+  const head = (s.eyebrow || s.title)
+    ? `<div style="margin-bottom:16px">
+         ${s.eyebrow ? `<p class="eyebrow">${esc(s.eyebrow)}</p>` : ""}
+         ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}
+       </div>` : "";
+  const qs_ = (s.questions||[]).map(renderQuestion).join("");
+  const inner = `${s.intro||""}${qs_ ? `<div class="card">${qs_}</div>` : ""}`;
+  return `${head}${s.html||""}${inner}`;
+}
+
+function render(){
+  const s = SCREENS[state.index];
+  stage.innerHTML = `<section class="screen active" tabindex="-1" aria-label="${esc(s.title || (s.id === 'consent' ? 'Welcome to the study' : 'Investment information'))}">${screenHTML(s)}</section>`;
+  document.getElementById("experienceLayout").classList.toggle("in-progress", state.index > 0);
+  const afterInformation = state.index >= SCREENS.findIndex(screen => screen.id === "info");
+  document.getElementById("experienceLayout").classList.toggle("after-information", afterInformation);
+  stage.dataset.condition = state.condition;
+  const edition = stage.querySelector(".edition");
+  if (edition) edition.textContent = `01 — ${SCREENS.length}`;
+  updateJourney(state.index);
+  stage.querySelector(".screen").focus({preventScroll:true});
+  window.scrollTo({top:0, behavior:"instant"});
+  nav.classList.remove("hide");
+  backBtn.classList.toggle("hide", state.index === 0);
+  nextBtn.textContent = (state.index === SCREENS.length - 1) ? "Submit my responses"
+                      : (s.id === "consent") ? "Start the game"
+                      : (s.dynamic) ? "Continue"
+                      : "Continue";
+  stepCount.textContent = `${state.index + 1} / ${SCREENS.length}`;
+  progressBar.style.width = ((state.index) / SCREENS.length * 100) + "%";
+  state._screenEnter = performance.now();
+  validate();
+  bind();
+  persist();
+}
+
+function updateJourney(completed){
+  const journey = document.getElementById("journey");
+  journey.setAttribute("aria-valuemax", SCREENS.length);
+  journey.setAttribute("aria-valuenow", completed);
+  journey.innerHTML = SCREENS.map((_, i) => `<span class="journey-segment${i < completed ? ' done' : i === completed ? ' current' : ''}" aria-hidden="true"></span>`).join("");
+}
+
+function celebrateNature(){
+  if (document.getElementById("experienceLayout").classList.contains("after-information")) return;
+  const scene = document.querySelector(".forest-artwork");
+  scene.classList.remove("nature-bloom");
+  void scene.offsetWidth;
+  scene.classList.add("nature-bloom");
+}
+document.querySelector(".replay-nature").addEventListener("click", () => {
+  const scene = document.querySelector(".forest-scene");
+  scene.classList.remove("replay");
+  void scene.getBoundingClientRect();
+  scene.classList.add("replay");
+  celebrateNature();
+});
+
+function bind(){
+  stage.querySelectorAll("[data-q][data-v]").forEach(el=>{
+    el.querySelector("input").addEventListener("change", ()=>{
+      const q = el.dataset.q, v = el.dataset.v;
+      state.answers[q] = v;
+      el.parentElement.querySelectorAll("[data-q='"+q+"']").forEach(x=>x.classList.toggle("checked", x === el));
+      const ow = stage.querySelector(`.other-wrap[data-for="${q}"]`);
+      if (ow) ow.classList.toggle("hide", v !== "Other");
+      celebrateNature(); validate(); persist();
+    });
+  });
+  stage.querySelectorAll("[data-consent]").forEach(el=>{
+    el.querySelector("input").addEventListener("change", e=>{
+      const on = e.target.checked;
+      state.answers[el.dataset.consent] = on ? "Yes" : "";
+      el.classList.toggle("checked", on);
+      celebrateNature(); validate(); persist();
+    });
+  });
+  stage.querySelectorAll("select[data-q]").forEach(el=>{
+    el.addEventListener("change", ()=>{ state.answers[el.dataset.q] = el.value; validate(); persist(); });
+  });
+  stage.querySelectorAll("input[data-other]").forEach(el=>{
+    el.addEventListener("input", ()=>{ state.answers[el.dataset.other] = el.value.trim(); persist(); });
+  });
+}
+
+function validate(){
+  const s = SCREENS[state.index];
+  const ok = (s.questions||[]).every(q => {
+    const v = state.answers[q.id];
+    return v !== undefined && v !== null && v !== "";
+  });
+  nextBtn.disabled = !ok;
+  const questions = s.questions || [];
+  const answered = questions.filter(q => state.answers[q.id]).length;
+  const hint = document.getElementById("navHint");
+  hint.textContent = s.id === "consent" ? (ok ? "You’re ready. Let’s begin." : "Agree above to begin the study.")
+    : questions.length ? (ok ? "All set. Continue when you’re ready." : `${answered} of ${questions.length} answered on this page`)
+    : "Take a moment to read before continuing.";
+  hint.classList.toggle("completion-note", ok);
+}
+
+function stampTime(){
+  const s = SCREENS[state.index];
+  if (s.timed && state._screenEnter){
+    const secs = (performance.now() - state._screenEnter) / 1000;
+    state.times[s.timed] = (state.times[s.timed] || 0) + Math.round(secs * 10) / 10;
+  }
+}
+
+nextBtn.addEventListener("click", ()=>{
+  if (nextBtn.disabled) return;
+  stampTime();
+  if (state.index === SCREENS.length - 1){ finish(); return; }
+  state.index++;
+  render();
+});
+
+backBtn.addEventListener("click", ()=>{
+  if (state.index === 0) return;
+  stampTime();
+  state.index--;
+  render();
+});
+
+function persist(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify({
+    pid:state.pid, condition:state.condition, answers:state.answers,
+    times:state.times, startedAt:state.startedAt, index:state.index, screenId:SCREENS[state.index].id
+  })); }catch(e){}
+}
+
+/* ------------------------------------------------------------------
+   DERIVED EXPERIMENTAL VARIABLES
+   ------------------------------------------------------------------ */
+function derive(){
+  const before = state.answers.q5_choice_round1 || "";
+  const after  = state.answers.q6_choice_round2 || "";
+  const short = v => v === "Green Deposit" ? "Green" : v === "Conventional Deposit" ? "Conventional" : "";
+  const b = short(before), a = short(after);
+  return {
+    switch_category: (b && a) ? `${b} → ${a}` : "",
+    switched: (b && a) ? (b === a ? "No" : "Yes") : ""
+  };
+}
+
+function buildPayload(){
+  const d = derive();
+  const totalS = state.startedAt ? Math.round((Date.now() - state.startedAt) / 1000) : "";
+  return Object.assign({}, state.answers, state.times, d, {
+    participant_id: state.pid,
+    condition: state.condition,
+    time_total_s: String(totalS),
+    started_at: new Date(state.startedAt).toISOString(),
+    submitted_at: new Date().toISOString()
+  });
+}
+
+/* ------------------------------------------------------------------
+   SUBMISSION — acknowledged Google Sheets writes + durable retry queue
+   ------------------------------------------------------------------ */
+async function sendOnce(payload){
+  const response = await fetch(CONFIG.RESPONSE_URL, {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload), signal:AbortSignal.timeout(25000)
+  });
+  const result = await response.json();
+  if (!response.ok || result.ok !== true || result.participant_id !== payload.participant_id) {
+    throw new Error("Saving was not confirmed");
+  }
+}
+
+function queueRead(){
+  try {
+    const queue = JSON.parse(localStorage.getItem(LS_QUEUE) || "[]");
+    return Array.isArray(queue) ? queue : [];
+  } catch (_) { return []; }
+}
+function queueAdd(payload){
+  try {
+    const queue = queueRead().filter(item => item.participant_id !== payload.participant_id);
+    queue.push(payload);
+    localStorage.setItem(LS_QUEUE, JSON.stringify(queue));
+    return true;
+  } catch (_) { return false; }
+}
+function queueRemove(pid){
+  try { localStorage.setItem(LS_QUEUE, JSON.stringify(queueRead().filter(item => item.participant_id !== pid))); } catch (_) {}
+}
+function markSaved(pid){
+  try {
+    localStorage.setItem(LS_DONE, pid);
+    const saved = JSON.parse(localStorage.getItem(LS_KEY) || "null");
+    if (saved && saved.pid === pid) localStorage.removeItem(LS_KEY);
+  } catch (_) {}
+}
+let flushingQueue = false;
+async function flushQueue(){
+  if (flushingQueue) return;
+  flushingQueue = true;
+  try {
+    for (const payload of queueRead()) {
+      try { await sendOnce(payload); queueRemove(payload.participant_id); markSaved(payload.participant_id); }
+      catch (_) { break; }
+    }
+  } finally { flushingQueue = false; }
+}
+window.addEventListener("online", flushQueue);
+
+async function submitWithRetry(payload, statusEl){
+  queueAdd(payload); // Persist before the first request; retain until acknowledged.
+  const delays = [0, 1200, 3500];
+  for (let i = 0; i < delays.length; i++){
+    if (delays[i]) await new Promise(resolve => setTimeout(resolve, delays[i]));
+    try {
+      await sendOnce(payload);
+      queueRemove(payload.participant_id);
+      return true;
+    } catch (_) {
+      if (statusEl) statusEl.textContent = `Saving not confirmed — retrying (${i+1}/${delays.length})…`;
+    }
+  }
+  return false;
+}
+
+function downloadBackup(payload){
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `response-${payload.participant_id}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+
+/* ------------------------------------------------------------------
+   FINISH
+   ------------------------------------------------------------------ */
+async function finish(){
+  const payload = buildPayload();
+  nav.classList.add("hide");
+  progressBar.style.width = "100%";
+  updateJourney(SCREENS.length);
+  stage.innerHTML = `<section class="screen active"><div class="card center">
+    <div class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h2>Thank you</h2>
+    <p style="margin-top:10px" id="saveMessage">Your responses will be used only for research purposes. Please wait while we save them.</p>
+    <p class="small" id="pidLine">Participant ID: <strong>${esc(payload.participant_id)}</strong></p>
+    <div class="status" id="subStatus">Saving your responses…</div>
+    <div id="rescue" class="hide" style="margin-top:14px">
+      <button class="btn btn-ghost" id="dlBtn" type="button" style="width:100%">Download a backup copy</button>
+    </div>
+  </div></section>`;
+  const statusEl = document.getElementById("subStatus");
+
+  const ok = await submitWithRetry(payload, statusEl);
+  if (ok){
+    statusEl.textContent = "Saved. You may close this page.";
+    document.getElementById("saveMessage").textContent = "Your responses have been saved. Thank you for taking part.";
+    markSaved(payload.participant_id);
+    flushQueue();
+  } else {
+    statusEl.classList.add("err");
+    const queued = queueRead().some(item => item.participant_id === payload.participant_id);
+    document.getElementById("saveMessage").textContent = "Saving has not been confirmed.";
+    statusEl.textContent = queued
+      ? "Your response is kept on this device for retry when you reconnect or reopen the page. Download a backup as well."
+      : "Please download a backup now so your answers are not lost.";
+    document.getElementById("rescue").classList.remove("hide");
+    document.getElementById("dlBtn").addEventListener("click", ()=>downloadBackup(payload));
+  }
+}
+
+/* ------------------------------------------------------------------
+   BOOT
+   ------------------------------------------------------------------ */
+function alreadyDone(){
+  stage.innerHTML = `<section class="screen active"><div class="card center">
+    <h2>You've already taken part</h2>
+    <p style="margin-top:10px">Thank you — this study accepts one response per person. If you believe this is a mistake, please contact the researcher.</p>
+  </div></section>`;
+  nav.classList.add("hide"); progressBar.style.width = "100%";
+  updateJourney(SCREENS.length);
+}
+
+(function boot(){
+  flushQueue();
+  let done = null;
+  try{ done = localStorage.getItem(LS_DONE); }catch(e){}
+  if (done && CONFIG.BLOCK_REPEAT && !qs.has("reset")) { alreadyDone(); return; }
+
+  let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem(LS_KEY) || "null"); }catch(e){}
+  if (saved && saved.pid && !qs.has("reset")){
+    state.pid = saved.pid;
+    state.condition = saved.condition;
+    state.answers = saved.answers || {};
+    state.times = saved.times || {};
+    state.startedAt = saved.startedAt || Date.now();
+    // Older saved sessions used the grouped screen index.
+    const savedScreenId = saved.screenId || SCREEN_GROUPS[saved.index || 0]?.id || (saved.index === 11 ? "demographics" : "consent");
+    state.index = Math.max(0, SCREENS.findIndex(screen => screen.id === savedScreenId));
+    const profileIndex = SCREENS.findIndex(screen => screen.id === "profile");
+    const profileIncomplete = SCREENS[profileIndex].questions.some(question => !state.answers[question.id]);
+    if (savedScreenId.startsWith("demographics") || (state.index > profileIndex && profileIncomplete)) {
+      state.index = profileIndex;
+    }
+  } else {
+    state.pid = uid();
+    state.condition = assignCondition();
+    state.startedAt = Date.now();
+  }
+  if (CONFIG.FORCE_CONDITION) state.condition = CONFIG.FORCE_CONDITION;
+  render();
+})();
+</script>
+</body>
+</html>

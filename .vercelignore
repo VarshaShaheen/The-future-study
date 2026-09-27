@@ -1,0 +1,10 @@
+tools/
+docs/
+*.md
+.env*
+.idea/
+responses/
+*.csv
+*.xlsx
+response-*.json
+tests/

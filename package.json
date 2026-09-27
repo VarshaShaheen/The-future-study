@@ -1,0 +1,10 @@
+{
+  "name": "green-deposit-game",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Whose Future Are You Saving For? — a randomised green-deposit investment experiment",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "deploy": "npx --yes vercel --prod"
+  }
+}
