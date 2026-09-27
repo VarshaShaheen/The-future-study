@@ -566,7 +566,7 @@ const SCREEN_GROUPS = [
 
 // Keep the initial profile together; present each post-information question separately.
 const round2GroupIndex = SCREEN_GROUPS.findIndex(screen => screen.id === "round2");
-const SCREENS = SCREEN_GROUPS.flatMap((screen, index) => {
+const BASE_SCREENS = SCREEN_GROUPS.flatMap((screen, index) => {
   if (index < round2GroupIndex || (screen.questions || []).length <= 1) return [screen];
   return screen.questions.map((question, questionIndex) => ({
     ...screen,
@@ -575,6 +575,13 @@ const SCREENS = SCREEN_GROUPS.flatMap((screen, index) => {
     questions: [question]
   }));
 });
+
+function screensForCondition(condition){
+  return BASE_SCREENS.flatMap(screen => screen.id === "info" && condition === "treatment"
+    ? [screen, {id:"treatment_video", chrome:false, timed:"time_intervention_s", dynamic:true}]
+    : [screen]);
+}
+let SCREENS = screensForCondition("control");
 
 </script>
 
@@ -687,23 +694,15 @@ const SHARED_INFO_TEXT = `
   <p><strong>Scenario:</strong> Imagine you have ₹10,00,000 to invest. Read the information above before making your investment choice.</p>`;
 
 function interventionHTML(){
-  if (state.condition === "control"){
-    return `<div class="card">${SHARED_INFO_TEXT}</div>`;
-  }
+  return `<div class="card">${SHARED_INFO_TEXT}</div>`;
+}
+
+function treatmentVideoHTML(){
   return `
-  <div class="card">${SHARED_INFO_TEXT}</div>
-  <div class="treatment-gallery" aria-label="Real-world environmental photographs">
-    <figure class="project-photo">
-      <img src="${esc(CONFIG.ASSETS.solar)}" alt="${esc(CONFIG.ASSETS.solarAlt)}" width="1000" height="666" loading="eager">
-      <figcaption><span class="eyebrow">Renewable energy</span><h3>Energy from the sun</h3><p>Solar panels are one example of renewable-energy infrastructure.</p></figcaption>
-    </figure>
-    <figure class="project-photo">
-      <img src="${esc(CONFIG.ASSETS.water)}" alt="${esc(CONFIG.ASSETS.waterAlt)}" width="1000" height="667" loading="eager">
-      <figcaption><span class="eyebrow">Water and natural environments</span><h3>A living waterway</h3><p>A real river landscape illustrates the natural environments that environmental protection aims to preserve.</p></figcaption>
-    </figure>
-    <p class="disclaimer">These photographs show real places as visual examples. They do not show a before-and-after comparison, a verified green-deposit-funded project, or a guaranteed result of your investment.</p>
-    <p class="photo-credits">Photos: <a href="https://unsplash.com/photos/XGAZzyLzn18" target="_blank" rel="noopener noreferrer">American Public Power Association</a> and <a href="https://unsplash.com/photos/1XY-qR9MDAc" target="_blank" rel="noopener noreferrer">Adrien Olichon</a> / Unsplash.</p>
-  </div>`;
+  <video class="treatment-video" controls playsinline preload="metadata" aria-label="Green Deposit information video">
+    <source src="assets/treatment.mp4" type="video/mp4">
+    Your browser does not support this video. <a href="assets/treatment.mp4">Open the video</a>.
+  </video>`;
 }
 
 /* ------------------------------------------------------------------
@@ -792,6 +791,7 @@ const stepCount = document.getElementById("stepCount");
 const progressBar = document.getElementById("progressBar");
 
 function screenHTML(s){
+  if (s.id === "treatment_video") return treatmentVideoHTML();
   if (s.dynamic) return interventionHTML();
   const head = (s.eyebrow || s.title)
     ? `<div style="margin-bottom:16px">
@@ -890,6 +890,7 @@ function validate(){
   const hint = document.getElementById("navHint");
   hint.textContent = s.id === "consent" ? (ok ? "You’re ready. Let’s begin." : "Agree above to begin the study.")
     : questions.length ? (ok ? "All set. Continue when you’re ready." : `${answered} of ${questions.length} answered on this page`)
+    : s.id === "treatment_video" ? "Watch the video before continuing."
     : "Take a moment to read before continuing.";
   hint.classList.toggle("completion-note", ok);
 }
@@ -1086,7 +1087,8 @@ function alreadyDone(){
   try{ saved = JSON.parse(localStorage.getItem(LS_KEY) || "null"); }catch(e){}
   if (saved && saved.pid && !qs.has("reset")){
     state.pid = saved.pid;
-    state.condition = saved.condition;
+    state.condition = CONFIG.FORCE_CONDITION || saved.condition;
+    SCREENS = screensForCondition(state.condition);
     state.answers = saved.answers || {};
     state.times = saved.times || {};
     state.startedAt = saved.startedAt || Date.now();
@@ -1101,6 +1103,7 @@ function alreadyDone(){
   } else {
     state.pid = uid();
     state.condition = assignCondition();
+    SCREENS = screensForCondition(state.condition);
     state.startedAt = Date.now();
   }
   if (CONFIG.FORCE_CONDITION) state.condition = CONFIG.FORCE_CONDITION;

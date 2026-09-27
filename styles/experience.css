@@ -59,7 +59,8 @@ body{background:var(--bg)}
 @media(max-width:370px){.header-note{max-width:80px;font-size:7px}.story-panel h1{font-size:45px}.experience-layout{padding-left:13px;padding-right:13px}.form-panel{padding:20px 14px}.intro-amount strong{font-size:32px}.intro-amount small{font-size:9px}.welcome-card h2{font-size:29px}}
 @media(prefers-reduced-motion:reduce){.pop-tree{opacity:1;transform:none}.forest-artwork::before,.forest-artwork::after{display:none}*,*::before,*::after{animation:none!important;transition:none!important}}
 
-/* The experimental information screen separates text and photo conditions. */
+/* The experimental information screen separates text and video conditions. */
+.treatment-video{display:block;width:100%;height:auto;border-radius:17px;background:#000}
 .after-information .forest-artwork{display:none}
 .after-information .story-footer{margin-top:30px}
 .treatment-gallery{display:grid;gap:18px}
