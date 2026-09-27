@@ -40,17 +40,17 @@ body{background:radial-gradient(ellipse at 5% 55%,#e7ebde80,transparent 50%),var
 @media(max-width:370px){.header-note{max-width:90px}.story-panel h1{font-size:42px}.artwork{width:145px}.story-description{max-width:calc(100% - 100px)}.experience-layout{padding-left:16px;padding-right:16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.opt:hover,.scale-row:hover,.invest-card:hover,.btn-primary:enabled:hover{transform:none}}
 
-/* Woodland palette and illustrated scene. Shared by both study arms. */
-:root[data-theme="light"]{--bg:#102e24;--surface:#234738;--surface-2:#294f3e;--ink:#f0f2d9;--ink-2:#d2ddc5;--muted:#afc3a7;--line:#44634b;--line-2:#73906b;--green:#c4e78f;--green-ink:#c4e78f;--green-soft:#385b3e;--blue:#9dd1e3;--blue-soft:#2b4e51;--amber:#f4c679;--shadow:0 15px 40px -22px #001c19aa}
-body{background:radial-gradient(ellipse at 8% 30%,#325f3e80,transparent 55%),radial-gradient(ellipse at 90% 85%,#4c673e40,transparent 50%),var(--bg)}
-.site-header{border-color:#71916635}.brand-icon{background:#c4e78f;color:#173c2d}.header-note::before{background:#c4e78f}
-.experience-layout{gap:58px;padding-top:36px}.story-panel{top:24px}.story-panel h1{font-size:clamp(48px,4.5vw,64px)}.story-panel h1 em{color:#c4e78f}.story-kicker{color:#b9ce9f}.story-description{color:#c4d3b7}.story-footer{border-color:#71916650}
-.form-panel{min-width:0;padding:27px;background:linear-gradient(140deg,#294936e8,#1d4033f5);border:1px solid #76936445;border-radius:25px;box-shadow:0 22px 70px #061c2430}
-.card{background:#214333;border-color:#5c7e505c}.welcome-card h2{color:#f1f1d5}.intro-amount{background:linear-gradient(115deg,#c5dc95,#a6c780);border-color:#d0e6ad;color:#183c2a;box-shadow:0 7px 25px #11281b30}.intro-amount small{color:#3c5932}.amount-symbol{color:#365b35;border-color:#75965d;box-shadow:4px 3px 0 #779a5650}.detail{border-color:#70936560}.consent{background:#2d503a;border-color:#6c875a}.consent.checked{background:#385e3e;border-color:#c4e78f}.consent.checked .box svg{stroke:#203b27}
-.opt,.scale-row,.invest-card{background:#254b38}.opt:hover,.scale-row:hover{background:#31583e;border-color:#a1bc7c}.dot,.box{border-color:#86a275}.scale-row.checked .scale-num{color:#183623!important}.q+.q{border-color:#71916645}.invest-card.checked{box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--line-2)}
-#nav{background:#102e24f2;border-color:#71916640}.btn-primary{color:#183623!important;background:#c4e78f;box-shadow:0 5px 22px #071b2460}.btn-primary:enabled:hover{background:#d5f4a6;box-shadow:0 5px 25px #bddb8020}.btn-primary:disabled{background:#7f9a6b;color:#173426!important;opacity:.65}.journey-segment{background:#56744a}.journey-segment.current{background:#c4e78f;box-shadow:0 0 10px #b1d58440}.journey-segment.done{background:#9eb976}
+/* Light message-green palette and illustrated scene. Shared by both study arms. */
+:root[data-theme="light"]{--bg:#d9fdd3;--surface:#f7fff5;--surface-2:#eaf7e7;--ink:#203b2b;--ink-2:#3f5845;--muted:#536c58;--line:#bbd6b5;--line-2:#73906b;--green:#28633e;--green-ink:#28633e;--green-soft:#d9f0d2;--blue:#286b86;--blue-soft:#e1f0f5;--amber:#86580f;--shadow:0 15px 40px -22px #31572b26}
+body{background:var(--bg)}
+.site-header{border-color:#71916635}.brand-icon{background:#28633e;color:#ffffff}.header-note::before{background:#28633e}
+.experience-layout{gap:58px;padding-top:36px}.story-panel{top:24px}.story-panel h1{font-size:clamp(48px,4.5vw,64px)}.story-panel h1 em{color:#28633e}.story-kicker{color:#486743}.story-description{color:#3f5845}.story-footer{border-color:#71916650}
+.form-panel{min-width:0;padding:27px;background:linear-gradient(140deg,#f4fff0e8,#edfae8f5);border:1px solid #76936445;border-radius:25px;box-shadow:0 22px 70px #31572b14}
+.card{background:#f7fff5;border-color:#5c7e505c}.welcome-card h2{color:#203b2b}.intro-amount{background:linear-gradient(115deg,#c5dc95,#a6c780);border-color:#d0e6ad;color:#183c2a;box-shadow:0 7px 25px #11281b30}.intro-amount small{color:#3c5932}.amount-symbol{color:#365b35;border-color:#75965d;box-shadow:4px 3px 0 #779a5650}.detail{border-color:#70936560}.consent{background:#eaf7e7;border-color:#6c875a}.consent.checked{background:#d9f0d2;border-color:#28633e}.consent.checked .box svg{stroke:#ffffff}
+.opt,.scale-row,.invest-card{background:#f7fff5}.opt:hover,.scale-row:hover{background:#e7f5e2;border-color:#a1bc7c}.dot,.box{border-color:#86a275}.scale-row.checked .scale-num{color:#ffffff!important}.q+.q{border-color:#71916645}.invest-card.checked{box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--line-2)}
+#nav{background:#d9fdd3f2;border-color:#71916640}.btn-primary{color:#ffffff!important;background:#28633e;box-shadow:0 5px 22px #31572b26}.btn-primary:enabled:hover{background:#1e5030;box-shadow:0 5px 25px #31572b20}.btn-primary:disabled{background:#b8d1ae;color:#365331!important;opacity:.65}.journey-segment{background:#bbd6b5}.journey-segment.current{background:#28633e;box-shadow:0 0 10px #b1d58440}.journey-segment.done{background:#52824a}
 .forest-artwork{max-width:none;width:100%;margin:24px 0 20px;position:relative}.forest-scene{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 18px 24px #001e2630)}
-.forest-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;font-size:10px;color:#b3c7a5}.forest-caption>span{display:flex;align-items:center;gap:7px}.forest-caption i{width:5px;height:5px;background:#c4e78f;border-radius:50%}.replay-nature{font:inherit;color:#d5e8b6;background:#42623e55;border:1px solid #7c98664f;border-radius:20px;padding:7px 11px;cursor:pointer;transition:background .2s}.replay-nature:hover{background:#5b7c4855}.replay-nature:focus-visible{outline:2px solid #c4e78f;outline-offset:3px}
+.forest-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;font-size:10px;color:#536c58}.forest-caption>span{display:flex;align-items:center;gap:7px}.forest-caption i{width:5px;height:5px;background:#28633e;border-radius:50%}.replay-nature{font:inherit;color:#28633e;background:#eaf7e7;border:1px solid #7c98664f;border-radius:20px;padding:7px 11px;cursor:pointer;transition:background .2s}.replay-nature:hover{background:#d0eac7}.replay-nature:focus-visible{outline:2px solid #28633e;outline-offset:3px}
 .pop-tree{transform-origin:0 0;animation:tree-grow .95s cubic-bezier(.2,.8,.3,1.22) both;animation-delay:var(--delay)}.replay .pop-tree{animation-name:tree-regrow}.forest-cloud{animation:cloud-drift 12s ease-in-out infinite alternate}.forest-birds{animation:bird-drift 9s ease-in-out infinite alternate}.fireflies{animation:firefly-glow 4s ease-in-out infinite alternate}.water-ripple{animation:ripple 4s ease-in-out infinite}.sun-glow{animation:firefly-glow 5s ease-in-out infinite alternate}.nature-bloom .fireflies{animation:answer-sparkle 1s ease-out}.forest-artwork::after,.forest-artwork::before{content:'';position:absolute;width:14px;height:24px;border-radius:2px 18px 2px 18px;background:#d3e795;opacity:0;pointer-events:none;bottom:32%;left:35%;transform:rotate(-30deg)}.forest-artwork::after{left:73%;bottom:20%;width:10px;height:18px;background:#f1d790}.nature-bloom::before{animation:leaf-pop 1.1s ease-out}.nature-bloom::after{animation:leaf-pop 1.3s .1s ease-out}
 @keyframes tree-grow{0%{transform:scale(.05) translateY(20px);opacity:0}65%{transform:scale(1.06,.98);opacity:1}100%{transform:scale(1);opacity:1}}@keyframes tree-regrow{0%{transform:scale(.05) translateY(20px);opacity:0}65%{transform:scale(1.06,.98);opacity:1}100%{transform:scale(1);opacity:1}}
 @keyframes cloud-drift{to{transform:translateX(18px)}}@keyframes bird-drift{to{transform:translate(14px,-5px)}}@keyframes firefly-glow{from{opacity:.25}to{opacity:.85}}@keyframes ripple{50%{opacity:.25;transform:translateX(4px)}}@keyframes answer-sparkle{0%,100%{opacity:.5}40%{opacity:1;filter:drop-shadow(0 0 5px #ecf8a1)}}@keyframes leaf-pop{0%{opacity:0;transform:translate(0,10px) rotate(-30deg) scale(.2)}25%{opacity:1}100%{opacity:0;transform:translate(22px,-95px) rotate(65deg) scale(1)}}
@@ -77,3 +77,28 @@ body{background:radial-gradient(ellipse at 8% 30%,#325f3e80,transparent 55%),rad
 .green-activities li{padding-left:3px;margin-bottom:8px}
 .green-activities li::marker{color:var(--green)}
 .deposit-important{padding:16px 18px;background:var(--green-soft);border-left:3px solid var(--green);border-radius:0 12px 12px 0}
+
+/* Readable type sizes shared by desktop and mobile. */
+.invest-terms{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line);font-size:16px;line-height:1.6}
+.invest-terms>div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 16px;margin-bottom:8px}
+.invest-terms>div:last-child{margin-bottom:0}
+.invest-terms dt{color:var(--ink-2)}
+.invest-terms dd{margin:0;font-weight:600;color:var(--ink)}
+body{font-size:17px;line-height:1.65}
+.story-description,.welcome-card>p:not(.lede),.consent-text,.opt,.scale-row,.invest-body,.project-photo p{font-size:16px;line-height:1.6}
+.welcome-card .lede,.lede,.q-label{font-size:18px;line-height:1.6}
+h3,.invest-title{font-size:19px;line-height:1.4}
+.small,.q-help,.money-sub,.disclaimer,.status,.viz-cap-t,.viz-arrow{font-size:15px;line-height:1.6}
+.btn,select,.term-v{font-size:16px}
+.stage input[type="text"]{font-size:16px!important}
+.detail,.story-footer,.forest-caption,.photo-credits,.nav-hint,.step-count,.scale-num{font-size:13px}
+.detail strong{font-size:15px}
+.story-kicker,.eyebrow,.welcome-topline .eyebrow,.project-photo .eyebrow,.q-num,.edition,.intro-amount small,.invest-tag,.term-k,.viz-badge{font-size:12px}
+.header-note{font-size:11px}
+.welcome-topline,.forest-caption,.story-footer{flex-wrap:wrap;gap:12px}
+@media(max-width:700px){
+  .header-note{max-width:140px;font-size:10px}
+  .opts.grid2{grid-template-columns:1fr}
+  .welcome-details{grid-template-columns:1fr}
+  .term{padding:12px 6px;overflow-wrap:anywhere}
+}

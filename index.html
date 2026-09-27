@@ -207,6 +207,8 @@ select:focus{outline:2px solid var(--green); outline-offset:1px; border-color:va
 .invest-card.b .invest-tag{color:var(--green); border-color:color-mix(in srgb, var(--green) 30%, transparent)}
 .invest-title{font-size:17.5px; font-weight:600; letter-spacing:-.01em; line-height:1.25}
 .invest-card .dot{flex:0 0 20px; height:20px}
+.invest-card.checked .dot{border-color:var(--green)}
+.invest-card.checked .dot::after{transform:scale(1)}
 .invest-card.checked.a .dot{border-color:var(--blue)}
 .invest-card.checked.a .dot::after{background:var(--blue)}
 .invest-body{font-size:14.5px; color:var(--ink-2); line-height:1.5; margin:0}
@@ -483,18 +485,9 @@ const SCREEN_GROUPS = [
     <p class="small" style="margin:0">You have received a hypothetical</p>
     <div class="money-amt">${AMOUNT}</div>
     <p class="money-sub">You cannot spend this money. Your task is to decide where to invest it.</p>
-  </div>
-  <div class="card">
-    <h3>The terms</h3>
-    <p class="small">Both options offer exactly the same terms. Your decision should be based only on the information provided.</p>
-    <div class="terms">
-      <div class="term"><div class="term-k">Interest</div><div class="term-v">7%</div></div>
-      <div class="term"><div class="term-k">Tenure</div><div class="term-v">Same</div></div>
-      <div class="term"><div class="term-k">Withdrawal</div><div class="term-v">Same</div></div>
-    </div>
   </div>`,
   questions:[
-    { id:"q5_choice_round1", num:"Q5", type:"invest", label:`Where would you invest your ${LAKH}?` }
+    { id:"q5_choice_round1", num:"Q5", type:"invest", showTerms:true, label:`Where would you invest your ${LAKH}?` }
   ]
 },
 
@@ -689,20 +682,9 @@ function mediaTag(src, alt, kind){
 const SHARED_INFO_TEXT = `
   <p class="eyebrow">Before your Round 2 decision</p>
   <h2>What is a Green Deposit?</h2>
-  <p style="margin-top:12px">A Green Deposit is an interest-bearing deposit offered by eligible financial institutions regulated by the Reserve Bank of India (RBI).</p>
-  <p>The funds raised through Green Deposits are earmarked for financing eligible green activities and projects. These may include:</p>
-  <ul class="green-activities">
-    <li>Renewable energy</li>
-    <li>Clean transportation</li>
-    <li>Sustainable water and waste management</li>
-    <li>Green buildings</li>
-    <li>Biodiversity and forest conservation</li>
-    <li>Pollution prevention and control</li>
-  </ul>
-  <p>A Green Deposit is similar to a conventional fixed deposit in that you deposit money with a financial institution and receive interest. However, the funds raised through a Green Deposit are specifically earmarked for eligible green activities and projects.</p>
-  <p class="deposit-important"><strong>Important:</strong> A Green Deposit does not necessarily offer a higher interest rate than a conventional fixed deposit. The distinguishing feature is how the funds are earmarked for eligible green activities and projects.</p>
-  <p>In the following decision, imagine that you have <strong>₹10,00,000 available to invest for a period of 5 years</strong>.</p>
-  <p>Please consider the information above before making your next investment decision.</p>`;
+  <p style="margin-top:12px">A Green Deposit is an RBI-regulated, interest-bearing deposit where your money is earmarked for financing environmentally sustainable projects, such as renewable energy, clean transport, waste and water management, green buildings, and pollution control.</p>
+  <p>Like a regular fixed deposit, you earn interest. The key difference is how the deposited funds are used, not necessarily the interest rate.</p>
+  <p><strong>Scenario:</strong> Imagine you have ₹10,00,000 to invest. Read the information above before making your investment choice.</p>`;
 
 function interventionHTML(){
   if (state.condition === "control"){
@@ -780,6 +762,9 @@ function renderQuestion(q){
           <span class="dot"></span>
         </div>
         ${q.compact ? "" : `<p class="invest-body">${esc(o.body)}</p>`}
+        ${q.showTerms ? `<dl class="invest-terms">
+          <div><dt>Interest</dt><dd>7%</dd></div>
+        </dl>` : ""}
       </label>`;
     }).join("") + `</div>`;
   }
