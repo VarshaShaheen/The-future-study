@@ -62,5 +62,43 @@ use `npx vercel dev` with local environment variables for end-to-end development
 Changes to the Apps Script require **Deploy → Manage deployments → Edit → New
 version → Deploy**. Keep the `Study Responses` headers unchanged.
 
+## Balanced assignment (upgrade before deploying the website)
+
+1. Replace your Apps Script code with the updated `tools/sheets-backend.gs`.
+2. Update the existing web-app deployment: **Deploy → Manage deployments →
+   Edit → New version → Deploy**. Keep the same URL and token.
+3. Deploy the website, including `api/assignment.js`. It uses the same Vercel
+   environment variables as response saving.
+
+When a new participant consents and clicks **Start the game**, the server assigns
+the next slot from a shuffled block containing two control and two treatment
+slots. The script automatically creates a **Study Assignments** tab. The four
+slots are written together; blank participant IDs are reserved slots, not errors.
+Do not delete, reorder, or edit these rows during collection.
+
+The script lock serializes simultaneous requests. Retrying the same participant
+ID returns its existing assignment without consuming another slot. The browser
+saves its ID before requesting assignment, so refreshes can retry safely. If
+assignment cannot be confirmed, the study stays on the consent screen with a
+retry button; there is no local random fallback.
+
+Each completed block of four newly assigned participants has a 2:2 split.
+An incomplete block can differ by up to two participants. This balances assigned
+participants, not completed responses: dropouts can still make completion counts
+unequal. Existing saved sessions keep their original condition and are outside
+the new blocks. Clearing browser storage or using another device creates a new
+participant ID.
+
+Preview flags (`?c=control`, `?c=treatment`, or `FORCE_CONDITION`) bypass the
+assignment ledger and do not consume slots. Use these for visual checks only;
+share the ordinary URL for real recruitment. For a live assignment check, use
+four fresh browsers/profiles without preview flags, consent in each, and confirm
+two assignments per condition in the new tab. Use a separate test Sheet/deployment
+for this check so test assignments do not enter your live blocks.
+
+Run `node tests/assignment.cjs` and `node tests/sheets-saving.cjs` for local
+assignment and response-saving checks. A static server cannot assign live
+participants; use `npx vercel dev` or preview flags when developing locally.
+
 Official references: [Apps Script web apps](https://developers.google.com/apps-script/guides/web),
 [Content Service and redirects](https://developers.google.com/apps-script/guides/content).

@@ -45,6 +45,44 @@ function jsonResult(value) {
   return ContentService.createTextOutput(JSON.stringify(value)).setMimeType(ContentService.MimeType.JSON);
 }
 
+// Called only while holding the script lock. Keep all four slots in the Sheet
+// so a failed response/retry cannot consume a second slot or reshuffle a block.
+function assignParticipant(properties, participantId) {
+  var spreadsheet = SpreadsheetApp.openById(properties.getProperty("SPREADSHEET_ID"));
+  var sheet = spreadsheet.getSheetByName("Study Assignments") || spreadsheet.insertSheet("Study Assignments");
+  var headers = ["participant_id", "condition", "block", "assigned_at"];
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, 4).setValues([headers]);
+    sheet.setFrozenRows(1);
+  }
+  if (JSON.stringify(sheet.getRange(1, 1, 1, 4).getValues()[0]) !== JSON.stringify(headers)) {
+    throw new Error("Assignment headers do not match.");
+  }
+  var rows = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues() : [];
+  var existing = rows.filter(function(row) { return row[0] === participantId; })[0];
+  if (existing) return existing[1];
+  var available = rows.findIndex(function(row) { return row[0] === ""; });
+  var condition;
+  if (available !== -1) {
+    condition = rows[available][1];
+    sheet.getRange(available + 2, 1, 1, 4).setValues([[participantId, condition, rows[available][2], new Date().toISOString()]]);
+  } else {
+    var block = ["control", "control", "treatment", "treatment"];
+    for (var i = block.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var swap = block[i]; block[i] = block[j]; block[j] = swap;
+    }
+    condition = block[0];
+    var blockNumber = rows.length / 4 + 1;
+    var newRows = block.map(function(arm, index) {
+      return [index === 0 ? participantId : "", arm, blockNumber, index === 0 ? new Date().toISOString() : ""];
+    });
+    sheet.getRange(sheet.getLastRow() + 1, 1, 4, 4).setValues(newRows);
+  }
+  SpreadsheetApp.flush();
+  return condition;
+}
+
 function doPost(event) {
   var lock;
   try {
@@ -55,6 +93,16 @@ function doPost(event) {
     var expectedToken = properties.getProperty("SUBMISSION_TOKEN");
     if (!expectedToken || request.token !== expectedToken) return jsonResult({ok:false});
     var payload = request.payload;
+    if (request.action === "assign") {
+      if (!payload || !/^P-[A-Z0-9-]{8,80}$/.test(payload.participant_id || "") || payload.consent !== "Yes") {
+        return jsonResult({ok:false});
+      }
+      lock = LockService.getScriptLock();
+      lock.waitLock(10000);
+      var condition = assignParticipant(properties, payload.participant_id);
+      return jsonResult({ok:true, participant_id:payload.participant_id, condition:condition});
+    }
+    if (request.action) return jsonResult({ok:false});
     if (!payload || !/^P-[A-Z0-9-]{8,80}$/.test(payload.participant_id || "") ||
         ["control", "treatment"].indexOf(payload.condition) === -1 || payload.consent !== "Yes") {
       return jsonResult({ok:false});

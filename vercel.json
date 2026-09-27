@@ -36,6 +36,9 @@
     }
   ],
   "functions": {
+    "api/assignment.js": {
+      "maxDuration": 30
+    },
     "api/responses.js": {
       "maxDuration": 30
     }

@@ -4,15 +4,16 @@
 
 A randomised between-subjects experiment on green deposit choice.
 Participants allocate a hypothetical ₹10,00,000 before and after an
-information intervention; treatment participants additionally see real-world
-photographs of solar panels and a forest river. Control receives text only.
+information intervention; everyone sees the text screen, and treatment
+participants then see a separate video screen. New participants are assigned
+centrally after consent in shuffled blocks of four (two per condition).
 
 Custom front-end, Google Sheets backend through Apps Script and a Vercel function.
 No frontend build step.
 
 The initial profile keeps age, education, income, gender, employment, district,
 and investment experience together. From Round 2 onward, each screen presents
-one question (17 screens total). Saved sessions resume by screen ID, with
+one question. Treatment has one additional video screen. Saved sessions resume by screen ID, with
 compatibility for the previous grouped-screen layout.
 
 ## Quick start
@@ -29,9 +30,11 @@ index.html          the experiment, animated woodland SVG, and config block
 styles/experience.css  woodland theme, tree/leaf animations, reduced-motion support
 assets/             solar-energy.jpg, forest-river.jpg, PHOTO-CREDITS.md
 api/responses.js    server-side submission relay
+api/assignment.js   server-side balanced assignment relay
 tools/sheets-backend.gs  paste into your Sheet’s Apps Script project
 docs/SHEETS-SETUP.md  connection and deployment instructions
 tests/sheets-saving.cjs  relay and mocked Sheet verification
+tests/assignment.cjs  balanced allocation, retries, and failure checks
 ```
 
 `tools/` and `docs/` are excluded from deploys via `.vercelignore`.
@@ -42,7 +45,7 @@ Follow [docs/SHEETS-SETUP.md](docs/SHEETS-SETUP.md) to connect your existing Goo
 Sheet, deploy Apps Script, and set `GOOGLE_SCRIPT_URL` and `GOOGLE_SCRIPT_TOKEN`
 in Vercel. The Sheet stays private. No Google Form is needed.
 
-Saving is not active until those deployment steps are complete. The website
+Assignment and saving are not active until those deployment steps are complete. The website
 shows success only after receiving a matching participant-ID acknowledgment.
 Retries do not duplicate rows. Test both conditions and verify the rows before
 collecting participant data. The previous Forms setup files are legacy only.
